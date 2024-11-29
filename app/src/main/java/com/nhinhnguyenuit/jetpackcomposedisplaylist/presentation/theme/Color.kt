@@ -1,4 +1,4 @@
-package com.nhinhnguyenuit.jetpackcomposedisplaylist.ui.theme
+package com.nhinhnguyenuit.jetpackcomposedisplaylist.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
