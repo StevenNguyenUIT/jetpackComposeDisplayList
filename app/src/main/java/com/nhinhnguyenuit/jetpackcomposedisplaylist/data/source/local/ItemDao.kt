@@ -5,15 +5,16 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.nhinhnguyenuit.jetpackcomposedisplaylist.data.model.ItemEntity
 
 @Dao
 interface ItemDao {
-    @Query("SELECT * FROM itementity ORDER BY :sortBy DESC")
-    fun getItems(sortBy: String): List<ItemEntity>
+    @Query("SELECT * FROM items ORDER BY :sortBy DESC")
+    suspend fun getItems(sortBy: String): List<ItemEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(item: List<ItemEntity>)
+    suspend fun insertItems(items: List<ItemEntity>)
 
     @Delete
-    fun deleteItem(item: ItemEntity)
+    suspend fun deleteItem(item: ItemEntity)
 }

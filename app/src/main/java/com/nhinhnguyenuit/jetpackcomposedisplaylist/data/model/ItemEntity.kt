@@ -1,9 +1,9 @@
-package com.nhinhnguyenuit.jetpackcomposedisplaylist.data.source.local
+package com.nhinhnguyenuit.jetpackcomposedisplaylist.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "items")
 data class ItemEntity(
     @PrimaryKey
     val index: Int,
