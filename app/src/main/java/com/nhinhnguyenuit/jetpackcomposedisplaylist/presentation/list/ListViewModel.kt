@@ -64,7 +64,6 @@ class ListViewModel @Inject constructor(
 
             try {
                 val existingItems = getItemsUseCase.execute("index")
-                Log.d("stevenn", "oke")
                 if(existingItems.isEmpty()){
                     val jsonData = loadJsonDataFromFile()
                     val items = parseJsonToDomainModel(jsonData)
@@ -80,7 +79,6 @@ class ListViewModel @Inject constructor(
 
 
     fun loadItems() {
-        Log.d("stevenn", "LoadItems + ${sortBy}")
         viewModelScope.launch {
             //Load sample data on first launch
             try {

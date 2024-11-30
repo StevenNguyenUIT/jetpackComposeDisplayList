@@ -9,8 +9,14 @@ import com.nhinhnguyenuit.jetpackcomposedisplaylist.data.model.ItemEntity
 
 @Dao
 interface ItemDao {
-    @Query("SELECT * FROM items ORDER BY :sortBy DESC")
-    suspend fun getItems(sortBy: String): List<ItemEntity>
+    @Query("SELECT * FROM items ORDER BY `index` DESC")
+    suspend fun getItemsByIndex(): List<ItemEntity>
+
+    @Query("SELECT * FROM items ORDER BY title DESC")
+    suspend fun getItemsByTitle(): List<ItemEntity>
+
+    @Query("SELECT * FROM items ORDER BY date DESC")
+    suspend fun getItemsByDate(): List<ItemEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertItems(items: List<ItemEntity>)
