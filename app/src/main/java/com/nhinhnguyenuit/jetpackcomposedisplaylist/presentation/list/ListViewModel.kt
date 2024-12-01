@@ -30,8 +30,11 @@ class ListViewModel @Inject constructor(
     private val _items = MutableStateFlow<List<ItemDomainModel>>(emptyList())
     val items: StateFlow<List<ItemDomainModel>> = _items
 
+    private val _sortBy = MutableStateFlow(SortBy.INDEX)
+    val sortBy: StateFlow<SortBy> = _sortBy
+
     // Default sorting criteria
-    private var sortBy = "index"
+//    private var sortBy = "index"
 
     init {
         initData()
@@ -82,7 +85,7 @@ class ListViewModel @Inject constructor(
         viewModelScope.launch {
             //Load sample data on first launch
             try {
-                val itemList = getItemsUseCase.execute(sortBy)
+                val itemList = getItemsUseCase.execute(_sortBy.value.query)
                 _items.value = itemList.map { it.toDomain() }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -90,8 +93,19 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun setSortingCriteria(criteria: String){
-        sortBy = criteria
+//    fun setSortingCriteria(criteria: String){
+//        sortBy = criteria
+//        loadItems()
+//    }
+
+    fun updateSortBy(newSortBy: SortBy){
+        _sortBy.value = newSortBy
         loadItems()
     }
+}
+
+enum class SortBy(val query: String){
+    INDEX("index"),
+    TITLE("title"),
+    DATE("date")
 }
