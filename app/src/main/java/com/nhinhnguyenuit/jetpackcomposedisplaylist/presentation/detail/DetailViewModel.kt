@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nhinhnguyenuit.jetpackcomposedisplaylist.data.model.toDomain
 import com.nhinhnguyenuit.jetpackcomposedisplaylist.data.model.toEntity
-import com.nhinhnguyenuit.jetpackcomposedisplaylist.domain.model.ItemDomainModel
+import com.nhinhnguyenuit.jetpackcomposedisplaylist.domain.model.ItemDomain
 import com.nhinhnguyenuit.jetpackcomposedisplaylist.domain.usecase.DeleteItemUseCase
 import com.nhinhnguyenuit.jetpackcomposedisplaylist.domain.usecase.GetItemsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,29 +17,29 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val getItemsUseCase: GetItemsUseCase,
     private val deleteItemUseCase: DeleteItemUseCase
-): ViewModel() {
+) : ViewModel() {
 
-    private val _item = MutableStateFlow<ItemDomainModel?>(null)
-    val item: StateFlow<ItemDomainModel?> = _item
+    private val _item = MutableStateFlow<ItemDomain?>(null)
+    val item: StateFlow<ItemDomain?> = _item
 
-    fun loadItem(itemId:Int){
+    fun loadItem(itemId: Int) {
         viewModelScope.launch {
             try {
                 val items = getItemsUseCase.execute("index")
-                _item.value = items.map { it.toDomain() }.find { it.index == itemId}
-            } catch (e: Exception){
+                _item.value = items.map { it.toDomain() }.find { it.index == itemId }
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
 
-    fun deleteItem(item: ItemDomainModel?){
+    fun deleteItem(item: ItemDomain?) {
         viewModelScope.launch {
             try {
-                if(item != null){
+                if (item != null) {
                     deleteItemUseCase.execute(item.toEntity())
                 }
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }

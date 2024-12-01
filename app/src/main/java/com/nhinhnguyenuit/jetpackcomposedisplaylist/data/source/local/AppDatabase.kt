@@ -5,6 +5,6 @@ import androidx.room.RoomDatabase
 import com.nhinhnguyenuit.jetpackcomposedisplaylist.data.model.ItemEntity
 
 @Database(entities = [ItemEntity::class], version = 1, exportSchema = false)
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun itemDao(): ItemDao
 }

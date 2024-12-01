@@ -2,10 +2,8 @@ package com.nhinhnguyenuit.jetpackcomposedisplaylist.presentation.detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,8 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -36,19 +32,17 @@ fun DetailScreen(
     itemId: Int
 ) {
     val item by viewModel.item.collectAsState()
-
-    var showDialog by remember {
-        mutableStateOf(false)
-    }
+    var showDialog by remember { mutableStateOf(false) }
+    var isDeleted by remember { mutableStateOf(false) } // status after deletion
 
     LaunchedEffect(Unit) {
         viewModel.loadItem(itemId)
     }
 
-    var isDeleted by remember { mutableStateOf(false) } // status after deletion
-
-    Column(modifier = Modifier
-        .padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+    ) {
         if (!isDeleted) {
             item?.let {
                 Text(
@@ -61,11 +55,20 @@ fun DetailScreen(
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            item?.let { Text(text = "Description: ${it.description}", style = TextStyle(
-                fontStyle = FontStyle.Italic
-            )) }
+            item?.let {
+                Text(
+                    text = "Description: ${it.description}", style = TextStyle(
+                        fontStyle = FontStyle.Italic
+                    )
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
-            item?.let { Text(text = "Date: ${it.date}", style = MaterialTheme.typography.labelLarge) }
+            item?.let {
+                Text(
+                    text = "Date: ${it.date}",
+                    style = MaterialTheme.typography.labelLarge
+                )
+            }
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = {
@@ -106,7 +109,6 @@ fun DetailScreen(
                     Button(
                         onClick = {
                             viewModel.deleteItem(item)
-//                            navController.popBackStack()
                             showDialog = false
                             isDeleted = true
                         },

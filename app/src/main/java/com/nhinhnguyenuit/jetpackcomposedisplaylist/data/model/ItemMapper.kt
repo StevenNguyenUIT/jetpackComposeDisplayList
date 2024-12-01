@@ -1,8 +1,8 @@
 package com.nhinhnguyenuit.jetpackcomposedisplaylist.data.model
 
-import com.nhinhnguyenuit.jetpackcomposedisplaylist.domain.model.ItemDomainModel
+import com.nhinhnguyenuit.jetpackcomposedisplaylist.domain.model.ItemDomain
 
-fun ItemDomainModel.toEntity(): ItemEntity {
+fun ItemDomain.toEntity(): ItemEntity {
     return ItemEntity(
         index = this.index,
         title = this.title,
@@ -11,8 +11,8 @@ fun ItemDomainModel.toEntity(): ItemEntity {
     )
 }
 
-fun ItemEntity.toDomain(): ItemDomainModel{
-    return ItemDomainModel(
+fun ItemEntity.toDomain(): ItemDomain {
+    return ItemDomain(
         index = this.index,
         title = this.title,
         date = this.date,

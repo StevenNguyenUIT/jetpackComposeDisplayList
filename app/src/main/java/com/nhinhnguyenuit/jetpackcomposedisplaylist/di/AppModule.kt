@@ -1,7 +1,5 @@
 package com.nhinhnguyenuit.jetpackcomposedisplaylist.di
 
-import android.app.Application
-import android.content.ClipData.Item
 import android.content.Context
 import androidx.room.Room
 import com.nhinhnguyenuit.jetpackcomposedisplaylist.data.repository.ItemRepositoryImpl
@@ -18,11 +16,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    
+
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase{
-        return Room.databaseBuilder(context,AppDatabase::class.java,"app_database").build()
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "app_database").build()
     }
 
     @Provides

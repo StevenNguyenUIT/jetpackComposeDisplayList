@@ -1,6 +1,6 @@
 package com.nhinhnguyenuit.jetpackcomposedisplaylist.domain.model
 
-data class ItemDomainModel(
+data class ItemDomain(
     val index: Int,
     val title: String,
     val date: String,

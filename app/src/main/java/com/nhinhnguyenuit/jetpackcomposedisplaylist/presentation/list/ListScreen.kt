@@ -2,17 +2,14 @@ package com.nhinhnguyenuit.jetpackcomposedisplaylist.presentation.list
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -63,9 +60,9 @@ fun SortMenu(
         mutableStateOf(false)
     }
     Box(modifier = modifier) {
-        TextButton(onClick = { expanded = true  }) {
+        TextButton(onClick = { expanded = true }) {
             Text(text = "Sort by: $seletedSortBy")
-            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "test" )
+            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "test")
         }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             SortBy.entries.forEach { sort ->
