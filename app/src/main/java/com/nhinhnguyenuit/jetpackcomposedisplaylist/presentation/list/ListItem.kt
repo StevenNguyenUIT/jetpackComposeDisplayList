@@ -26,7 +26,7 @@ fun ListItem(item: ItemDomainModel, onClick: ()->Unit){
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "Index: ${item.index}")
             Text(text = "Title: ${item.title}")
-            Text(text = "Data: ${item.date}")
+            Text(text = "Date: ${item.date}")
         }
     }
 }
