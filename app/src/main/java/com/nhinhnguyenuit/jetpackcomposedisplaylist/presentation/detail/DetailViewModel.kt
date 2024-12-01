@@ -22,11 +22,11 @@ class DetailViewModel @Inject constructor(
     private val _item = MutableStateFlow<ItemDomain?>(null)
     val item: StateFlow<ItemDomain?> = _item
 
-    fun loadItem(itemId: Int) {
+    fun loadItem(index: Int) {
         viewModelScope.launch {
             try {
                 val items = getItemsUseCase.execute("index")
-                _item.value = items.map { it.toDomain() }.find { it.index == itemId }
+                _item.value = items.map { it.toDomain() }.find { it.index == index }
             } catch (e: Exception) {
                 e.printStackTrace()
             }

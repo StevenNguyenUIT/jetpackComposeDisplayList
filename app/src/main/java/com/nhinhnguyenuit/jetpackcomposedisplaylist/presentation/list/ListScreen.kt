@@ -20,10 +20,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.nhinhnguyenuit.jetpackcomposedisplaylist.R
+import com.nhinhnguyenuit.jetpackcomposedisplaylist.presentation.navigation.Screen
 
 @Composable
 fun ListScreen(navController: NavController, viewModel: ListViewModel = hiltViewModel()) {
@@ -36,14 +39,14 @@ fun ListScreen(navController: NavController, viewModel: ListViewModel = hiltView
 
     Column {
         SortMenu(modifier = Modifier.padding(8.dp),
-            seletedSortBy = sortBy,
+            selectedSort = sortBy,
             onSortedChange = {
                 viewModel.updateSortBy(it)
             })
         LazyColumn {
             items(items) { item ->
                 ListItem(item = item,
-                    onClick = { navController.navigate("detail/${item.index}") })
+                    onClick = { navController.navigate(Screen.DetailScreen.createRoute(item.index)) })
             }
         }
     }
@@ -53,7 +56,7 @@ fun ListScreen(navController: NavController, viewModel: ListViewModel = hiltView
 @Composable
 fun SortMenu(
     modifier: Modifier = Modifier,
-    seletedSortBy: SortBy,
+    selectedSort: SortBy,
     onSortedChange: (SortBy) -> Unit
 ) {
     var expanded by remember {
@@ -61,15 +64,15 @@ fun SortMenu(
     }
     Box(modifier = modifier) {
         TextButton(onClick = { expanded = true }) {
-            Text(text = "Sort by: $seletedSortBy")
-            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "test")
+            Text(text = "Sort by: $selectedSort")
+            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = stringResource(id = R.string.sort))
         }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             SortBy.entries.forEach { sort ->
                 DropdownMenuItem(text = {
                     Text(
                         text = "Sort by ${sort.name}",
-                        fontWeight = if (sort == seletedSortBy) FontWeight.Bold else FontWeight.Normal
+                        fontWeight = if (sort == selectedSort) FontWeight.Bold else FontWeight.Normal
                     )
                 }, onClick = {
                     expanded = false
@@ -79,21 +82,4 @@ fun SortMenu(
         }
     }
 
-//    Box(modifier = modifier) {
-//        Button(onClick = { expanded = true }) {
-//            Text(text = "Sort by: $seletedOption")
-//        }
-//
-//        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-//            listOf("index", "title", "date").forEach { option ->
-//                DropdownMenuItem(
-//                    text = { Text(text = option.capitalize(Locale.ROOT)) },
-//                    onClick = {
-//                        expanded = false
-//                        seletedOption = option
-//                        onSortSelected(option)
-//                    })
-//            }
-//        }
-//    }
 }

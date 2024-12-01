@@ -8,6 +8,8 @@ import com.nhinhnguyenuit.jetpackcomposedisplaylist.data.model.toEntity
 import com.nhinhnguyenuit.jetpackcomposedisplaylist.domain.model.ItemDomain
 import com.nhinhnguyenuit.jetpackcomposedisplaylist.domain.usecase.GetItemsUseCase
 import com.nhinhnguyenuit.jetpackcomposedisplaylist.domain.usecase.LoadSampleDataUseCase
+import com.nhinhnguyenuit.jetpackcomposedisplaylist.utils.loadJsonDataFromFile
+import com.nhinhnguyenuit.jetpackcomposedisplaylist.utils.parseJsonToDomainModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,38 +32,16 @@ class ListViewModel @Inject constructor(
     private val _sortBy = MutableStateFlow(SortBy.INDEX)
     val sortBy: StateFlow<SortBy> = _sortBy
 
-
     init {
         initData()
-    }
-
-    private fun loadJsonDataFromFile(): String {
-        return context.assets.open("sample_data_list.json").bufferedReader().use { it.readText() }
-    }
-
-    private fun parseJsonToDomainModel(json: String): List<ItemDomain> {
-        val jsonArray = JSONArray(json)
-        val items = mutableListOf<ItemDomain>()
-        for (i in 0 until jsonArray.length()) {
-            val obj = jsonArray.getJSONObject(i)
-            items.add(
-                ItemDomain(
-                    index = obj.getInt("index"),
-                    title = obj.getString("title"),
-                    date = obj.getString("date"),
-                    description = obj.getString("description")
-                )
-            )
-        }
-        return items
     }
 
     private fun initData() {
         viewModelScope.launch {
             try {
-                val existingItems = getItemsUseCase.execute("index")
+                val existingItems = getItemsUseCase.execute(SortBy.INDEX.query)
                 if (existingItems.isEmpty()) {
-                    val jsonData = loadJsonDataFromFile()
+                    val jsonData = loadJsonDataFromFile(context)
                     val items = parseJsonToDomainModel(jsonData)
                     loadSampleDataUseCase.execute(items.map { it.toEntity() })
                 }

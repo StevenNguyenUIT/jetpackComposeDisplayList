@@ -19,24 +19,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.nhinhnguyenuit.jetpackcomposedisplaylist.R
 
 @Composable
 fun DetailScreen(
     navController: NavController,
     viewModel: DetailViewModel = hiltViewModel(),
-    itemId: Int
+    index: Int
 ) {
     val item by viewModel.item.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
     var isDeleted by remember { mutableStateOf(false) } // status after deletion
 
     LaunchedEffect(Unit) {
-        viewModel.loadItem(itemId)
+        viewModel.loadItem(index)
     }
 
     Column(
@@ -76,13 +78,13 @@ fun DetailScreen(
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text("Delete")
+                Text(stringResource(id = R.string.delete))
             }
         } else {
             AlertDialog(
                 onDismissRequest = {},
-                title = { Text(text = "Success") },
-                text = { Text("Item deleted successfully!") },
+                title = { stringResource(id = R.string.success_title) },
+                text = { Text(stringResource(id = R.string.success_message)) },
                 confirmButton = {
                     Button(
                         onClick = {
@@ -90,7 +92,7 @@ fun DetailScreen(
                             navController.popBackStack()
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(id = R.string.ok))
                     }
                 }
             )
@@ -99,12 +101,8 @@ fun DetailScreen(
         if (showDialog) {
             AlertDialog(
                 onDismissRequest = { showDialog = false },
-                title = {
-                    Text(text = "Deletion Confirmation")
-                },
-                text = {
-                    Text("Are you sure you want to delete this item?")
-                },
+                title = { Text(text = stringResource(id = R.string.confirm_deletion)) },
+                text = { Text(stringResource(id = R.string.delete_confirmation)) },
                 confirmButton = {
                     Button(
                         onClick = {
@@ -114,14 +112,14 @@ fun DetailScreen(
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                     ) {
-                        Text("Delete", color = Color.White)
+                        Text(stringResource(id = R.string.delete), color = Color.White)
                     }
                 },
                 dismissButton = {
                     Button(
                         onClick = { showDialog = false }
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(id = R.string.cancel))
                     }
                 }
             )
